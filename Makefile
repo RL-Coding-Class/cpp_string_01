@@ -1,14 +1,18 @@
 initials = RL
-execs = string_01 tests_string
+execs = string_01
+tests = tests_string
 
-all: $(execs)
+all: $(execs) $(tests)
 .PHONY: all
 
 clean:
 	rm $(execs)
 
-% : %.cc
-	g++ -g -std=c++11 $< -o $@
+test: $(execs)
+	@$(foreach test, $(tests), echo "RUNNING: $(test)" && ./$(test))
 
-string_01 :	string_01 string_01.h
-tests_string : 	tests_string.cc string_01.h
+% : %.cc
+	g++ -g -std=c++17 $< -o $@
+
+string_01 : string_01.cc string_01.h
+tests_string : tests_string.cc string_01.h
