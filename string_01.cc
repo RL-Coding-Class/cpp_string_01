@@ -1,6 +1,9 @@
 #include "string_01.h"
+#include <iostream>
 
-auto main() {
+using namespace string_toys;
+
+int main(void) {
     std::string input;
 
     std::cout << "Podaj dowolny string: ";

@@ -1,7 +1,8 @@
 #ifndef CPP_STRING_H
 #define CPP_STRING_H
 
-
+#include <iostream>
+#include <string>
 namespace string_toys {
     
 auto reverse(const std::string & str) {
@@ -34,16 +35,19 @@ auto first_to_upper(const std::string & str) {
 }
 
 
-auto count_vowels(const std::string & str) {
-    int count = 0;
-    for (char c : str) {
-        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
-            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
-            count++;
+auto count_vowels(const std::string & str) -> int {
+    char vowels_lower[] = {'a', 'e', 'i', 'o', 'u', 'y'};
+    int counter = 0;
+    for(char str_el : str) {
+        for(char vowel_char : vowels_lower) {
+            std::cout << str_el << std::endl;
+            if(str_el == vowel_char || str_el == (vowel_char - 32)) {
+                counter++;
+            }
         }
     }
-    return count;
-}   
+    return counter;
+}
 
 auto sum_digits(const std::string & str) {
     int sum = 0;
@@ -69,28 +73,32 @@ auto search_substr(const std::string & str, const std::string & substr) {
     }
 }
 
-auto custom_serach(const char * str, const char * substr) {
-    const char *strPtr = str.c_str(); // wskaźnik na pierwszy znak w stringu
-    const char *substrPtr = substr.c_str(); // wskaźnik na pierwszy znak w podstringu
-    int index = 0; // indeks aktualnie sprawdzanego znaku w stringu
-
-    while (*strPtr != '\0') { 
-        const char *tempStrPtr = strPtr; 
-        while (*tempStrPtr == *substrPtr && *substrPtr != '\0') { 
-            tempStrPtr++;
-            substrPtr++; 
+auto custom_search(const char *str, const char *substr) -> int
+    {
+        int pos = -1;
+        const char *p = str;
+        const char *q = substr;
+        while (*p != '\0')
+        {
+            if (*p == *q)
+            {
+                const char *temp_p = p;
+                const char *temp_q = q;
+                while (*temp_p == *temp_q && *temp_p != '\0' && *temp_q != '\0')
+                {
+                    temp_p++;
+                    temp_q++;
+                }
+                if (*temp_q == '\0')
+                {
+                    pos = p - str;
+                    break;
+                }
+            }
+            p++;
         }
-        if (*substrPtr == '\0') { 
-            return index;
-        }
-        substrPtr = substr.c_str(); 
-        strPtr++; 
-        index++; 
+        return pos;
     }
-    return -1; 
-}
-
-
 }
 
 #endif /* CPP_STRING_H */
